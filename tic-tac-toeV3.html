@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tic-Tac-Toe</title>
+	<meta charset='UTF-8'>
+	<style>
+
+		body{
+			background-image: url("purple.jpg");
+		}
+
+		input{
+			width: 80px;
+			height:80px;
+			box-shadow: 5px 5px 5px black;
+			font: 45px normal Arial;
+			border: solid;
+			border-width: 0.5px;
+			border-color: black;
+		}
+
+		input:hover{
+			transition: 0.5s;
+			background-color: #A9A9A9;
+		}
+
+		#title{
+			font: 50px normal Stencil Std, fantasy;
+			text-shadow: 4px 4px 1px white;
+		}
+
+		input#restart{
+			width: 250px;
+			height: 70px;
+			margin: 20px;
+			font: 50px normal Arial;
+		}
+
+		input#b{
+			width: 250px;
+			height: 70px;
+			margin: 20px;
+			font: 50px normal Arial;
+		}
+
+		input#jogador{
+			width: 300px;
+			height: 70px;
+			margin: 20px;
+			font: 50px normal Arial;
+		}
+
+		input#placar{
+			position: absolute; right: 10px;
+			width: 300px;
+		}
+
+		input#placar1{
+			position: absolute; right: 10px;
+			width: 120px;
+			height: 70px;
+			top: 100px;
+			right: 180px;
+		}
+
+		input#placar2{
+			position: absolute; right: 10px;
+			width: 120px;
+			height: 70px;
+			top: 100px;
+			right: 20px;
+		}
+
+	</style>
+</head>
+<body onload="aut()">
+
+	<input type="button" value="PLACAR" id="placar">
+	<input type="button" value="0" id="placar1">
+	<input type="button" value="0" id="placar2">
+
+	<input type="button" value="JOGADOR 1" id="jogador">
+
+	<div id="button">
+    	<input type="button" value="PLAY" onclick="tocar()" id="b">
+		<audio src="ltheme.mp3" preload loop id="audio"></audio>
+    </div>
+
+	<div>
+
+		<input type="button" value="RESTART" id="restart" onclick="limpar()">
+
+		<table align="center">
+			<caption id="title">tic-tac-toe</caption>
+			<tr>
+				<td><input type="button" value="" id="id1" onclick="marcar(this.id)"></td>
+				<td><input type="button" value="" id="id2" onclick="marcar(this.id)"></td>
+				<td><input type="button" value="" id="id3" onclick="marcar(this.id)"></td>
+			</tr>
+			<tr>
+				<td><input type="button" value="" id="id4" onclick="marcar(this.id)"></td>
+				<td><input type="button" value="" id="id5" onclick="marcar(this.id)"></td>
+				<td><input type="button" value="" id="id6" onclick="marcar(this.id)"></td>
+			</tr>
+			<tr>
+				<td><input type="button" value="" id="id7" onclick="marcar(this.id)"></td>
+				<td><input type="button" value="" id="id8" onclick="marcar(this.id)"></td>
+				<td><input type="button" value="" id="id9" onclick="marcar(this.id)"></td>
+			</tr>
+		</table>
+	</div>
+	<script>
+
+		//focar no botão da musica
+		function aut(){
+			b.focus()
+		}
+
+		//Tocando a música e alterando display.
+		function tocar(){
+			var a = document.getElementById('audio')
+			if(b.value == 'PLAY'){
+				a.play()
+				b.value = "PLAYING"
+			} else if(b.value == 'PLAYING'){
+				a.pause()
+				b.value = "PAUSED"
+			} else{
+				a.play()
+				b.value = "PLAYING"
+			}
+		}
+
+		//Declaração de variáveis
+		mais1 = 0
+		mais2 = 0
+
+		var b = document.getElementById("b")
+
+		jogador = 0
+
+		var id1 = document.getElementById("id1")
+		var id2 = document.getElementById("id2")
+		var id3 = document.getElementById("id3")
+		var id4 = document.getElementById("id4")
+		var id5 = document.getElementById("id5")
+		var id6 = document.getElementById("id6")
+		var id7 = document.getElementById("id7")
+		var id8 = document.getElementById("id8")
+		var id9 = document.getElementById("id9")
+
+		//Marcar o placar
+		function placar1(){
+			var pla1 = document.getElementById("placar1").value = mais1 += 1
+			
+		}
+		function placar2(){
+			var pla2 = document.getElementById("placar2").value = mais2 += 1
+		}
+
+		//Marcar com X ou O, verificar se a casa já está ocupada e mudar o jogador.
+		function marcar(clicked_id){
+			var click = clicked_id
+			var idv = document.getElementById(click)
+			if(idv.value.length > 0){
+				alert("Casa já preenchida, favor realizar outra jogada!")
+			} else{
+				if (jogador % 2 == 0){
+				idv.value = "X"
+				var player = document.getElementById("jogador").value = "JOGADOR 2"
+				} else{
+				idv.value = "O"
+				var player = document.getElementById("jogador").value = "JOGADOR 1"
+				}
+				jogador ++
+				ganhou()
+			}
+		}
+
+		//Limpar o tabuleiro
+		function limpar(){
+			id1.value = ""
+			id2.value = ""
+			id3.value = ""
+			id4.value = ""
+			id5.value = ""
+			id6.value = ""
+			id7.value = ""
+			id8.value = ""
+			id9.value = ""
+			var player = document.getElementById("jogador").value = "JOGADOR" 
+		}
+
+		//Verificação se o jogador ganhou.
+		function ganhou(){
+			//lines win - X
+			if(id1.value == "X" && id2.value == "X" && id3.value == "X"){
+				alert("Você ganhou!")
+				limpar()
+				placar1()
+			} else if(id4.value == "X" && id5.value == "X" && id6.value == "X"){
+				alert("Você ganhou!")
+				limpar()
+				placar1()
+			} else if(id7.value == "X" && id8.value == "X" && id9.value == "X"){
+				alert("Você ganhou!")
+				limpar()
+				placar1()
+			//columns win - X
+			} else if(id1.value == "X" && id4.value == "X" && id7.value == "X"){
+				alert("Você ganhou!")
+				limpar()
+				placar1()
+			} else if(id2.value == "X" && id5.value == "X" && id8.value == "X"){
+				alert("Você ganhou!")
+				limpar()
+				placar1()
+			} else if(id3.value == "X" && id6.value == "X" && id9.value == "X"){
+				alert("Você ganhou!")
+				limpar()
+				placar1()
+			//diagonally - X
+			} else if(id1.value == "X" && id5.value == "X" && id9.value == "X"){
+				alert("Você ganhou!")
+				limpar()
+				placar1()
+			} else if(id7.value == "X" && id5.value == "X" && id3.value == "X"){
+				alert("Você ganhou!")
+				limpar()
+				placar1()
+			}
+			//lines win - O
+			else if(id1.value == "O" && id2.value == "O" && id3.value == "O"){
+				alert("Você ganhou!")
+				limpar()
+				placar2()
+			} else if(id4.value == "O" && id5.value == "O" && id6.value == "O"){
+				alert("Você ganhou!")
+				limpar()
+				placar2()
+			} else if(id7.value == "O" && id8.value == "O" && id9.value == "O"){
+				alert("Você ganhou!")
+				limpar()
+				placar2()
+			//columns win - O
+			} else if(id1.value == "O" && id4.value == "O" && id7.value == "O"){
+				alert("Você ganhou!")
+				limpar()
+				placar2()
+			} else if(id2.value == "O" && id5.value == "O" && id8.value == "O"){
+				alert("Você ganhou!")
+				limpar()
+				placar2()
+			} else if(id3.value == "O" && id6.value == "O" && id9.value == "O"){
+				alert("Você ganhou!")
+				limpar()
+				placar2()
+			//diagonally win - O
+			} else if(id1.value == "O" && id5.value == "O" && id9.value == "O"){
+				alert("Você ganhou!")
+				limpar()
+				placar2()
+			} else if(id7.value == "O" && id5.value == "O" && id3.value == "O"){
+				alert("Você ganhou!")
+				limpar()
+				placar2()
+			} else if(id1.value.length > 0 && id2.value.length > 0 && id3.value.length > 0 && id4.value.length > 0 && id5.value.length > 0 && id6.value.length > 0 && id7.value.length > 0 && id8.value.length > 0 && id9.value.length > 0){
+				alert("Empate!")
+				limpar()
+			}
+		}
+	</script>
+</body>
+</html>
